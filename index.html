@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tukang CoretZ Studio</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* ============================================
+           RESET & ANTI GESER
+        ============================================ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body {
+            background-color: #000;
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        section,
+        nav,
+        footer {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ============================================
+           HERO
+        ============================================ */
+        .hero-bg {
+            background:
+                linear-gradient(rgba(0, 0, 0, .45), rgba(0, 0, 0, .92)),
+                url('https://images.unsplash.com/photo-1511818966892-d7d671e672a2');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+        }
+
+        /* ============================================
+           HOVER
+        ============================================ */
+        .hover-up {
+            transition: transform .3s ease;
+        }
+
+        .hover-up:hover {
+            transform: translateY(-8px);
+        }
+
+        /* ============================================
+           LOGO BAWAH (CTA)
+        ============================================ */
+        .logo1 {
+            width: 150px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* ============================================
+           PORTFOLIO — MOBILE DEFAULT
+           (swipe horizontal native)
+        ============================================ */
+        #portfolio {
+            background: #f3f4f6;
+            color: #000;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #portfolio .sticky {
+            display: block;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0 20px 20px;
+            scrollbar-width: none;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #portfolio .sticky::-webkit-scrollbar {
+            display: none;
+        }
+
+        #track {
+            display: flex;
+            gap: 16px;
+            width: max-content;
+        }
+
+        #track .card {
+            width: 80vw;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            flex-shrink: 0;
+            scroll-snap-align: center;
+        }
+
+        /* ============================================
+           PORTFOLIO — DESKTOP (>= 768px)
+        ============================================ */
+        @media (min-width: 768px) {
+
+            #portfolio {
+                height: 400vh;
+                overflow: hidden;
+            }
+
+            #portfolio .sticky {
+                position: sticky;
+                top: 0;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                padding: 0;
+                scroll-snap-type: none;
+            }
+
+            #track {
+                display: flex;
+                gap: 40px;
+                padding-left: 80px;
+                padding-right: 80px;
+                width: auto;
+                will-change: transform;
+            }
+
+            #track .card {
+                width: 500px;
+                height: 320px;
+                flex-shrink: 0;
+            }
+        }
+
+        /* ============================================
+           LOGO1 — DESKTOP
+        ============================================ */
+        @media (min-width: 768px) {
+            .logo1 {
+                width: 200px;
+                height: 190px;
+            }
+        }
+
+        /* ============================================
+           MOBILE KECIL — max 380px
+        ============================================ */
+        @media (max-width: 380px) {
+            #track .card {
+                width: 85vw;
+                height: 220px;
+            }
+
+            .logo1 {
+                width: 130px;
+            }
+        }
+
+        /* ============================================
+           NAVBAR MENU MOBILE
+        ============================================ */
+        @media (max-width: 767px) {
+            #nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                width: 100%;
+                padding: 18px 24px;
+                background: rgba(0, 0, 0, 0.96);
+                border-top: 1px solid #27272a;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            #nav-menu.show {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+
+<body class="text-white">
+
+    <!-- ============================================
+         NAVBAR
+    ============================================ -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-black/70 backdrop-blur border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+            <h1 class="font-bold text-base md:text-lg whitespace-nowrap">Tukang CoretZ</h1>
+
+            <button
+                id="menu-button"
+                type="button"
+                class="md:hidden text-2xl leading-none p-1"
+                aria-label="Buka menu"
+            >
+                ☰
+            </button>
+
+            <div id="nav-menu" class="hidden md:flex gap-8 text-sm">
+                <a href="#home" class="hover:text-gray-400">Home</a>
+                <a href="#about" class="hover:text-gray-400">Tentang</a>
+                <a href="#services" class="hover:text-gray-400">Layanan</a>
+                <a href="#portfolio" class="hover:text-gray-400">Portfolio</a>
+                <a href="#contact" class="hover:text-gray-400">Kontak</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         HERO
+    ============================================ -->
+    <section id="home" class="hero-bg min-h-screen flex items-center pt-20">
+        <div class="w-full max-w-7xl mx-auto px-4 md:px-6">
+            <h2 class="text-2xl md:text-4xl font-bold mb-2">
+                Tukang <span class="text-gray-400">CoretZ</span> Studio
+            </h2>
+
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight max-w-3xl">
+                Wujudkan Bangunan Impian Anda
+            </h1>
+
+            <p class="text-gray-300 max-w-2xl mb-8">
+                Solusi profesional untuk desain arsitektur, visualisasi 3D,
+                hingga pembangunan dengan kualitas tinggi.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 max-w-md sm:max-w-none">
+                <a href="#contact"
+                    class="bg-white text-black px-8 py-4 rounded-lg font-semibold hover:bg-gray-300 transition text-center">
+                    Konsultasi Gratis
+                </a>
+
+                <a href="#portfolio"
+                    class="border border-white px-8 py-4 rounded-lg hover:bg-white hover:text-black transition text-center">
+                    Portfolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         ABOUT
+    ============================================ -->
+    <section id="about" class="py-24 bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-12 items-center">
+            <img src="logo.png" class="w-72 mx-auto" alt="Logo Tukang CoretZ">
+
+            <div>
+                <h2 class="text-4xl font-bold mb-6">Tentang Kami</h2>
+
+                <p class="text-gray-400 mb-4">
+                    Tukang CoretZ Studio adalah jasa desain dan pembangunan
+                    yang berfokus pada kualitas, estetika, dan ketepatan.
+                </p>
+
+                <p class="text-gray-400">
+                    Kami membantu dari konsep hingga pembangunan secara profesional.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SERVICES
+    ============================================ -->
+    <section id="services" class="py-24 bg-white text-black text-center">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-6">Layanan Kami</h2>
+                <p class="text-gray-400">Solusi lengkap desain &amp; konstruksi</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-zinc-900 p-8 rounded-xl border border-zinc-800 hover-up">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Desain Arsitektur</h3>
+                    <p class="text-gray-400">Desain modern &amp; fungsional.</p>
+                </div>
+
+                <div class="bg-zinc-900 p-8 rounded-xl border border-zinc-800 hover-up">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Visualisasi 3D</h3>
+                    <p class="text-gray-400">Render realistis sebelum dibangun.</p>
+                </div>
+
+                <div class="bg-zinc-900 p-8 rounded-xl border border-zinc-800 hover-up">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Pembangunan</h3>
+                    <p class="text-gray-400">Konstruksi profesional &amp; terstruktur.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         STATISTIK
+    ============================================ -->
+    <section class="py-24 bg-zinc-950 text-center">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-4xl md:text-5xl font-bold">100+</h3>
+                <p class="text-gray-400 mt-1">Project</p>
+            </div>
+
+            <div>
+                <h3 class="text-4xl md:text-5xl font-bold">5+</h3>
+                <p class="text-gray-400 mt-1">Tahun</p>
+            </div>
+
+            <div>
+                <h3 class="text-4xl md:text-5xl font-bold">24/7</h3>
+                <p class="text-gray-400 mt-1">Support</p>
+            </div>
+
+            <div>
+                <h3 class="text-4xl md:text-5xl font-bold">100%</h3>
+                <p class="text-gray-400 mt-1">Profesional</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         PORTFOLIO
+    ============================================ -->
+    <section id="portfolio">
+        <div class="text-center mb-6">
+            <h2 class="text-4xl font-bold px-4 md:px-20 pt-20">Portfolio</h2>
+        </div>
+
+        <div class="sticky">
+            <div id="track">
+                <img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2"
+                    class="card" alt="Portfolio 1">
+
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+                    class="card" alt="Portfolio 2">
+
+                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c"
+                    class="card" alt="Portfolio 3">
+
+                <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3"
+                    class="card" alt="Portfolio 4">
+
+                <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde"
+                    class="card" alt="Portfolio 5">
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CTA / CONTACT
+    ============================================ -->
+    <section id="contact" class="py-28 bg-black text-white text-center">
+        <div class="max-w-3xl mx-auto px-4 md:px-6 flex flex-col items-center">
+            <img src="logo1.PNG" class="logo1 mb-6" alt="Logo Tukang CoretZ">
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                Mulai Project Anda
+            </h2>
+
+            <p class="text-gray-600 max-w-xl mb-10 leading-relaxed">
+                Konsultasi gratis sekarang dan wujudkan desain impian Anda
+                bersama tim profesional kami.
+            </p>
+
+            <a href="https://wa.me/6281234567890"
+                class="bg-green-500 text-white px-10 py-4 rounded-lg font-semibold
+                hover:scale-105 transition-all duration-300 shadow-lg">
+                Hubungi WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+    ============================================ -->
+    <footer class="bg-black border-t border-zinc-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between gap-10">
+            <div class="max-w-sm">
+                <h2 class="text-xl font-bold mb-4">
+                    Tukang <span class="text-gray-400">CoretZ</span>
+                </h2>
+
+                <p class="text-gray-500 text-sm">
+                    Studio desain &amp; konstruksi profesional yang membantu
+                    mewujudkan bangunan impian Anda dengan kualitas terbaik.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+                <div>
+                    <h3 class="font-semibold mb-3">Navigasi</h3>
+                    <ul class="space-y-2 text-gray-500">
+                        <li><a href="#home" class="hover:text-white">Home</a></li>
+                        <li><a href="#about" class="hover:text-white">Tentang</a></li>
+                        <li><a href="#services" class="hover:text-white">Layanan</a></li>
+                        <li><a href="#portfolio" class="hover:text-white">Portfolio</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-3">Layanan</h3>
+                    <ul class="space-y-2 text-gray-500">
+                        <li>Desain</li>
+                        <li>3D</li>
+                        <li>Konstruksi</li>
+                        <li>Renovasi</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-3">Alamat</h3>
+                    <ul class="space-y-2 text-gray-500">
+                        <li>Trenggalek</li>
+                        <li>0812-3456-7890</li>
+                        <li class="break-all">email@coretzstudio.com</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-3">Sosial</h3>
+
+                    <div class="flex flex-col gap-2 text-gray-400">
+                        <a href="https://instagram.com/username" target="_blank"
+                            class="hover:text-pink-500 transition">
+                            Instagram
+                        </a>
+
+                        <a href="https://tiktok.com/@username" target="_blank"
+                            class="hover:text-cyan-400 transition">
+                            TikTok
+                        </a>
+
+                        <a href="https://wa.me/6281234567890" target="_blank"
+                            class="hover:text-green-500 transition">
+                            WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-zinc-800 mt-10 pt-6 text-center text-gray-500 text-sm px-4">
+            © 2025 Tukang CoretZ Studio
+        </div>
+    </footer>
+
+    <!-- ============================================
+         FLOATING WA BUTTON
+    ============================================ -->
+    <a href="https://wa.me/6282245997797"
+        class="fixed bottom-5 right-5 bg-green-500 px-5 py-3 rounded-full text-white shadow-lg z-50">
+        Konsultasi
+    </a>
+
+    <!-- ============================================
+         JAVASCRIPT
+    ============================================ -->
+    <script>
+        // ==========================================
+        // 1. MENU MOBILE
+        // ==========================================
+        const menuButton = document.getElementById("menu-button");
+        const navMenu = document.getElementById("nav-menu");
+
+        menuButton.addEventListener("click", () => {
+            navMenu.classList.toggle("show");
+            menuButton.textContent = navMenu.classList.contains("show") ? "✕" : "☰";
+        });
+
+        navMenu.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navMenu.classList.remove("show");
+                menuButton.textContent = "☰";
+            });
+        });
+
+        // ==========================================
+        // 2. SCROLL REVEAL (kecuali portfolio)
+        // ==========================================
+        const sections = document.querySelectorAll('section:not(#portfolio)');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(sec => {
+            sec.style.opacity = "0";
+            sec.style.transform = "translateY(30px)";
+            sec.style.transition = "all 0.8s cubic-bezier(.4,0,.2,1)";
+            observer.observe(sec);
+        });
+
+        // ==========================================
+        // 3. NAVBAR SCROLL EFFECT
+        // ==========================================
+        const nav = document.querySelector('nav');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.style.background = "rgba(0,0,0,0.95)";
+                nav.style.boxShadow = "0 10px 30px rgba(0,0,0,0.5)";
+            } else {
+                nav.style.background = "rgba(0,0,0,0.7)";
+                nav.style.boxShadow = "none";
+            }
+        });
+
+        // ==========================================
+        // 4. COUNTER ANIMATION
+        // ==========================================
+        document.querySelectorAll('h3').forEach(counter => {
+            const raw = counter.innerText.trim();
+            if (!/^\d+[+%]?$/.test(raw)) return;
+
+            let started = false;
+
+            const run = () => {
+                if (started) return;
+                started = true;
+
+                const target = parseInt(raw.replace(/\D/g, '')) || 0;
+                const suffix = raw.replace(/[0-9]/g, '');
+                let count = 0;
+
+                const update = () => {
+                    count += target / 60;
+                    if (count < target) {
+                        counter.innerText = Math.floor(count) + suffix;
+                        requestAnimationFrame(update);
+                    } else {
+                        counter.innerText = target + suffix;
+                    }
+                };
+                update();
+            };
+
+            new IntersectionObserver(entries => {
+                if (entries[0].isIntersecting) run();
+            }).observe(counter);
+        });
+
+        // ==========================================
+        // 5. FLOATING WA PULSE
+        // ==========================================
+        const wa = document.querySelector('a[href*="wa.me"]');
+
+        setInterval(() => {
+            wa.style.boxShadow = "0 0 0 0 rgba(34,197,94,.7)";
+            wa.style.transition = "0s";
+
+            setTimeout(() => {
+                wa.style.boxShadow = "0 0 0 20px rgba(34,197,94,0)";
+                wa.style.transition = "all 1s ease";
+            }, 100);
+        }, 2000);
+
+        // ==========================================
+        // 6. PORTFOLIO HORIZONTAL SCROLL (DESKTOP ONLY)
+        // ==========================================
+        const section = document.querySelector("#portfolio");
+        const track = document.querySelector("#track");
+
+        let current = 0;
+        let target = 0;
+
+        const isDesktop = () => window.innerWidth >= 768;
+
+        window.addEventListener("scroll", () => {
+            if (!isDesktop()) return;
+            const sectionTop = section.offsetTop;
+            target = Math.max(0, window.scrollY - sectionTop);
+        });
+
+        window.addEventListener("resize", () => {
+            current = 0;
+            target = 0;
+            if (!isDesktop()) track.style.transform = "none";
+        });
+
+        function animate() {
+            if (isDesktop()) {
+                current += (target - current) * 0.08;
+                track.style.transform = `translateX(-${current}px)`;
+            } else {
+                track.style.transform = "none";
+            }
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+
+</body>
+</html>
